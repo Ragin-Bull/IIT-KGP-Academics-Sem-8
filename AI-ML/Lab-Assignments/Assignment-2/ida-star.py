@@ -1,4 +1,5 @@
-inf = 999999
+import sys
+inf = sys.maxsize
 
 def ida_star(start, goal):
     threshold = heuristic(start, goal)
