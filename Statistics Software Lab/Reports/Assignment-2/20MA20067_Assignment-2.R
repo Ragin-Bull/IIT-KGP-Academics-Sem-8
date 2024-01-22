@@ -75,7 +75,7 @@ if(W > criticial_value){
 }
 
 # c) Generation of Random Sample from a Binomial Distribution
-p <- 0.34
+p <- 0.67
 generate_binomial_distribution <- function (p) {
   U <- runif(BIG_NUM)
   X <- rep(0, BIG_NUM)
