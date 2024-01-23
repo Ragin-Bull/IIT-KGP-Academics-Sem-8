@@ -182,6 +182,7 @@ if(W > criticial_value){
   print("The given distribution follows Trapezoidal Distribution")
 }
 # # e)  Usage of Probability Integral Transform to generate a random sample from Cauchy Distribution
+t1 <- Sys.time()
 generate_std_normie <- function(num) {
   x1 <- runif(num, 0, 1)
   x2 <- runif(num, 0, 1)
@@ -218,6 +219,9 @@ if (W > critical_value) {
 } else {
   print("The sample follows a standard normal distribution.")
 }
+
+t2 <- Sys.time()
+print(t2-t1)
 
 # k<-8
 # intervals <- numeric(0)
