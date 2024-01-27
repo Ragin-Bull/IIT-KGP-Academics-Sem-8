@@ -132,10 +132,11 @@ for(i in 1:n){
   E <- append(E, cdfValue*1000)
   O <- append(O, length(X[X<=ints[i+1]])-length(X[X<ints[i]]))
 }
-W
-critical_value
+
+
 W <- sum((O-E)^2/E)
 critical_value <- qchisq(0.95,n-1)
+print(W)
 print(critical_value)
 
 if(W > critical_value){
