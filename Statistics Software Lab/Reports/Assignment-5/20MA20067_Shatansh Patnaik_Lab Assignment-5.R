@@ -1,48 +1,65 @@
-# Function to generate random samples from a multivariate normal distribution
-generate_multivariate_normal_samples <- function(mu, sigma, num_samples = 5000) {
-  p <- length(mu)
-  
-  # Step I: Decompose Sigma = CC^T
-  C <- chol(sigma)
-  
-  # Step II: Generate Z1, Z2, ..., Zp as IID N(0, 1) random variates
-  Z <- matrix(rnorm(num_samples * p), ncol = p)
-  
-  # Step III: Calculate Xi for each i
-  X <- matrix(0, nrow = num_samples, ncol = p)
-  for (i in 1:p) {
-    X[, i] <- mu[i] + sum(C[i, 1:i] * Z[, 1:i])
-  }
-  
-  # Step IV: Return X
-  return(X)
-}
-
-# Example 1
-mu_1 <- c(1, 2, 3)
-sigma_1 <- matrix(c(1, 0.5, 0.2,
-                    0.5, 2, 0.7,
-                    0.2, 0.7, 3), nrow = 3, byrow = TRUE)
-
-samples_1 <- generate_multivariate_normal_samples(mu_1, sigma_1)
-sample_mean_1 <- colMeans(samples_1)
-sample_covariance_1 <- cov(samples_1)
-
-# Calculate norm error for mean and covariance
-mean_norm_error_1 <- norm(sample_mean_1 - mu_1)
-covariance_norm_error_1 <- norm(sample_covariance_1 - sigma_1)
-
-cat("Example 1:\n")
-cat("Sample Mean:", sample_mean_1, "\n")
-cat("Sample Covariance Matrix:\n")
-print(sample_covariance_1)
-cat("Mean Norm Error:", mean_norm_error_1, "\n")
-cat("Covariance Matrix Norm Error:", covariance_norm_error_1, "\n")
-cat("\n")
-
-# Repeat the process for other examples...
-
-# Function to calculate the Frobenius norm of a matrix
-norm <- function(mat) {
+getNorm <- function(mat) {
   sqrt(sum(mat^2))
 }
+
+generateMVNSample <- function(meanVector, covarianceVector) {
+  p <- length(meanVector)
+  C <- chol(covarianceVector)
+  Z <- matrix(rnorm(p))
+  
+  X <- meanVector + C %*% Z
+  return(t(X))
+}
+
+generateRandomMVNSamples <- function(meanVector, covarianceVector, num){
+  result <- numeric(0)
+  for (i in 1:num){
+    result <- rbind(result, generateMVNSample(meanVector, covarianceVector))
+  }
+  return(result)
+}
+
+printSolutionForExercise <- function(meanVector, covarianceVector){
+  num <- 5000
+  samples <- generateRandomMVNSamples(meanVector, covarianceVector, num)
+  sampleMean <- colMeans(samples)
+  sampleCovariance <- cov(samples)
+  
+  meanNormError <- getNorm(sampleMean - meanVector)
+  covarianceNormError <- getNorm(sampleCovariance - covarianceVector)
+  
+  cat("Sample Mean:", sampleMean, "\n")
+  cat("Sample Covariance Matrix:", sampleCovariance,"\n")
+  cat("Mean Norm Error:", meanNormError, "\n")
+  cat("Covariance Matrix Norm Error:", covarianceNormError, "\n")
+}
+
+# Exercise 1
+cat("Exercise 1\n")
+meanVector <- matrix(c(1, -1, 2), nrow=3, ncol=1)
+covarianceVector <- matrix(c(4, 2, 2, 2, 4, 2, 2, 2, 4), nrow=3, ncol=3)
+printSolutionForExercise(meanVector, covarianceVector)
+
+# Exercise 2
+cat("Exercise 2\n")
+meanVector <- matrix(c(1, 1, 1), nrow=3, ncol=1)
+covarianceVector <- matrix(c(2, -1, 0, -1, 2, -1, 0, -1, 2), nrow=3, ncol=3)
+printSolutionForExercise(meanVector, covarianceVector)
+
+# Exercise 3
+cat("Exercise 3\n")
+meanVector <- matrix(c(0, 0, 0), nrow=3, ncol=1)
+covarianceVector <- matrix(c(1, -2, 0, -2, 5, 0, 0, 0, 2), nrow=3, ncol=3)
+printSolutionForExercise(meanVector, covarianceVector)
+
+# Exercise 4
+cat("Exercise 4\n")
+meanVector <- matrix(c(4, 3, 2, 1), nrow=4, ncol=1)
+covarianceVector <- matrix(c(3, 0, 2, 2, 0, 1, 1, 0, 2, 1, 9, -2, 2, 0, -2, 4), nrow=4, ncol=4)
+printSolutionForExercise(meanVector, covarianceVector)
+
+# Exercise 5
+cat("Exercise 5\n")
+meanVector <- matrix(c(2, 4, -1, 3, 0), nrow=5, ncol=1)
+covarianceVector <- matrix(c(4, -1, 0.5, -0.5, 0, -1, 3, 1, -1, 0, 0.5, 1, 6, 1, -1, -0.5, -1, 1, 4, 0, 0, 0, -1, 0, 2), nrow=5, ncol=5)
+printSolutionForExercise(meanVector, covarianceVector)
