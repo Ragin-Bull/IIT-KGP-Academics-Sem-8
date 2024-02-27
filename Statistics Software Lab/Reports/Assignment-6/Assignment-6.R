@@ -116,6 +116,7 @@ upperLimsB <- upperLimsB[-length(upperLimsB)]
 
 par(mfrow=c(2, 2))
 
+
 hist(givenData, breaks = classIntsA, main = "Frequency Histogram (Task A)", xlab = "Iron Solution Index", ylab = "Frequency", col="red")
 plot(midsA, freqTableA, type = "l", main = "Frequency Polygon (Task A)", xlab = "Iron Solution Index", ylab = "Frequency" , col="blue")
 plot(densityA, main = "Frequency Curve (Task A)", xlab = "Iron Solution Index", ylab = "Density", col="pink")
