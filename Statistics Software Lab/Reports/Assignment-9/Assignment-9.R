@@ -260,6 +260,38 @@ cat("Coefficient of determination (R^2):", R2, "\n")
 plot(X, y, pch=16, col="blue", xlab="X", ylab="Y", main="Scatter plot with regression curve")
 curve(coefficients[1] * 1 + coefficients[2] * x + coefficients[3] * x^2, add = TRUE, col = "red", lwd = 2)
 
+
+
+
+
+
+
+# Data
+X <- c(1.00, 1.05, 1.10, 1.15, 1.21, 1.32, 1.44, 1.53, 1.63, 1.79, 1.91, 2.03, 2.12, 2.26, 2.37, 2.51)
+Y <- c(3.71, 3.81, 3.86, 3.93, 3.96, 4.20, 4.34, 4.51, 4.73, 5.35, 5.74, 6.14, 6.51, 6.98, 7.44, 7.76)
+
+# Fit a second order polynomial regression model
+model <- lm(Y ~ poly(X, 2, raw=TRUE))
+
+# Summary of the model
+summary(model)
+
+# 95% confidence intervals for coefficients of the model and 𝜎^2
+confint(model)
+
+# Test for the significance of coefficients
+anova(model)
+
+# R-squared value
+rsquared <- summary(model)$r.squared
+rsquared
+
+
+
+
+
+
+
 # Exercise - 4
 # Given data
 x <- c(1, 2, 3, 4, 5, 6)
